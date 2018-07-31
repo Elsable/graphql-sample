@@ -31,6 +31,8 @@ func getBook(c *gin.Context) {
 		},
 		"user":  fields.UserField,
 		"users": fields.UsersField,
+		"book":  fields.BookField,
+		"books": fields.BooksField,
 	}
 	rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
 	schemaConfig := graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}

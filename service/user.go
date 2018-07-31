@@ -42,11 +42,7 @@ func NewUser() *User {
 
 func (u *User) FindByID(id int64) bool {
 	u.ID = id
-	has, err := engine.Get(u)
-	log.Println(err)
-	log.Println(*u)
-	log.Println(id)
-	log.Println(has)
+	has, _ := engine.Get(u)
 	return has
 }
 

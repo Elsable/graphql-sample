@@ -4,6 +4,8 @@ CREATE TABLE user_book (
   id int NOT NULL AUTO_INCREMENT,
   book_id int NOT NULL,
   user_id int NOT NULL,
+  created_at datetime,
+  updated_at datetime,
   PRIMARY KEY (id)
 );
 

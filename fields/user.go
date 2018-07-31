@@ -2,7 +2,6 @@ package fields
 
 import (
 	"errors"
-	"strconv"
 
 	"github.com/graphql-go/graphql"
 	"github.com/stobita/graphql-sample/service"
@@ -17,8 +16,8 @@ var UserField = &graphql.Field{
 		},
 	},
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
-		stringUserID, ok := params.Args["id"].(string)
-		userID, _ := strconv.ParseInt(stringUserID, 10, 64)
+		intUserID, ok := params.Args["id"].(int)
+		userID := int64(intUserID)
 		if ok {
 			user := service.NewUser()
 			if user.FindByID(userID) {
@@ -41,10 +40,20 @@ var userType = graphql.NewObject(graphql.ObjectConfig{
 	Name: "User",
 	Fields: graphql.Fields{
 		"id": &graphql.Field{
-			Type: graphql.ID,
+			Type: graphql.Int,
 		},
 		"name": &graphql.Field{
 			Type: graphql.String,
+		},
+		"books": &graphql.Field{
+			Type: graphql.NewList(bookType),
+			Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+				user, ok := params.Source.(*service.User)
+				if ok {
+					return service.NewBook().GetByUserID(user.ID), nil
+				}
+				return nil, nil
+			},
 		},
 	},
 })

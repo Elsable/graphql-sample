@@ -3,6 +3,8 @@
 CREATE TABLE book_category (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(255),
+  created_at datetime,
+  updated_at datetime,
   PRIMARY KEY (id)
 );
 
