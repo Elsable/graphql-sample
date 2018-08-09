@@ -2,16 +2,19 @@ package main
 
 import (
 	"bytes"
+	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/graphql-go/graphql"
 	"github.com/stobita/graphql-sample/fields"
+	"github.com/stobita/graphql-sample/middlewares"
 )
 
 func main() {
 	r := gin.Default()
-	r.POST("/", getBook)
+	r.Use(middlewares.CORSMiddleware)
+	r.POST("/graphql", getBook)
 	port := os.Getenv("PORT")
 	r.Run(":" + port)
 }
@@ -22,6 +25,7 @@ func getBook(c *gin.Context) {
 	body := bufferBody.String()
 	// requestBody, _ := ioutil.ReadAll(c.Request.Body)
 	// body := fmt.Sprintf("%s", body)
+	log.Println(body)
 	fields := graphql.Fields{
 		"hello": &graphql.Field{
 			Type: graphql.String,
